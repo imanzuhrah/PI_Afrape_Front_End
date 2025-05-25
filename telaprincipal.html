@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel Principal</title>
+
+<link rel="icon" href="images/logo.png" type="image/x-icon">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+      margin-top: 70px;
+      background-color: #f5f5f5;
+      /* para não ficar atrás do menu fixo */
+    }
+
+    /* Menu superior */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #ff66007c;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      z-index: 1000;
+      height: 70px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.192);
+    }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .navbar .logo img {
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      position: relative;
+      font-weight: bold;
+    }
+
+    .menu>li {
+      list-style: none;
+      position: relative;
+    }
+
+    .menu>li>a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 14px 18px;
+      display: block;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu>li>a:hover {
+      background-color: #333;
+    }
+
+    /* submenu */
+    .submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #2a2a2a;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      display: none;
+      min-width: 180px;
+      z-index: 1100;
+    }
+
+    .submenu li {
+      list-style: none;
+    }
+
+    .submenu li a {
+      color: white;
+      padding: 12px 20px;
+      display: block;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .submenu li a:hover {
+      background-color: #444;
+    }
+
+    .menu>li:hover .submenu {
+      display: block;
+    }
+
+    /* lado esquerdo com ícone e botão logoff */
+    .user-panel {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      font-size: 24px;
+      user-select: none;
+    }
+
+    .logoff-btn {
+      padding: 8px 16px;
+      background-color: #000000c7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .logoff-btn:hover {
+      background-color: #d62828;
+    }
+
+    /* lado do conteúdo principal */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px;
+      position: relative;
+      background-color: #f5f5f5;
+      min-height: calc(100vh - 70px);
+      gap: 30px;
+    }
+
+    .welcome {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #222;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    .card-container {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 25px 30px;
+      width: 280px;
+      text-align: center;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #1c1c1c;
+    }
+
+    .card p {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    /* responsividade */
+    @media (max-width: 992px) {
+      body {
+        flex-direction: column;
+        margin-top: 0;
+      }
+
+      .navbar {
+        position: relative;
+        height: auto;
+        padding: 15px 20px;
+      }
+
+      .content {
+        padding: 20px;
+        min-height: auto;
+        gap: 20px;
+      }
+
+      .card-container {
+        justify-content: center;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .welcome {
+        font-size: 2rem;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="user-panel">
+      <span class="user-icon" title="Usuário">👤</span>
+      <button class="logoff-btn" onclick="logoff()">Logoff</button>
+    </div>
+
+    <ul class="menu">
+      <li>
+        <a href="#">Cadastros</a>
+        <ul class="submenu">
+          <li><a href="cadescola.html">Cadastro Escola</a></li>
+          <li><a href="usuarios.html">Cadastro Usuários</a></li>
+          <li><a href="cadalunos.html">Cadastro Alunos</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Frequências</a>
+        <ul class="submenu">
+          <li><a href="#">Alunos</a></li>
+          <li><a href="#">Funcionários</a></li>
+          <li><a href="#">Professores</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Relatórios</a>
+      </li>
+    </ul>
+
+    <div class="logo" title="Logo Escola">
+      <img src="images/logo.png" alt="Logo Escola" />
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="welcome">Bem-vindo ao Painel Principal</div>
+    <div class="subtitle">Selecione uma das opções abaixo para começar:</div>
+
+    <div class="card-container">
+      <div class="card" onclick="window.location.href='/cadescola.html'">
+        <h3>Cadastro de Escola</h3>
+        <p>Gerencie as informações da sua escola, incluindo endereço, CNPJ e dados de contato.</p>
+      </div>
+      <div class="card" onclick="window.location.href='/usuarios.html'">
+        <h3>Cadastro de Usuários</h3>
+        <p>Administre usuários do sistema, com permissões e acessos diferenciados.</p>
+      </div>
+      <div class="card" onclick="window.location.href='/cadalunos.html'">
+        <h3>Cadastro de Alunos</h3>
+        <p>Registre e gerencie os dados dos alunos da escola de forma prática e segura.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function logoff() {
+      alert('Você saiu!');
+      window.location.href = 'login.html'; // Ajuste conforme sua rota
+    }
+  </script>
+
+</body>
+
+</html>

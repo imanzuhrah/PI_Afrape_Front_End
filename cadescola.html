@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro de Escola</title>
+  <link rel="icon" href="images/logo.png" type="image/x-icon">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+      margin-top: 70px;
+      /* para não ficar atrás do menu fixo */
+    }
+
+    /* Menu superior */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #ff66007c;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      /* aumento da espessura */
+      z-index: 1000;
+      height: 70px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.192);
+    }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .navbar .logo img {
+      height: 50px;
+      /* logo maior para acompanhar a altura do menu */
+      object-fit: contain;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      position: relative;
+      font-weight: bold;
+    }
+
+    .menu>li {
+      list-style: none;
+      position: relative;
+    }
+
+    .menu>li>a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 14px 18px;
+      display: block;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu>li>a:hover {
+      background-color: #333;
+    }
+
+    /* submenu */
+    .submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #2a2a2a;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      display: none;
+      min-width: 180px;
+      z-index: 1100;
+    }
+
+    .submenu li {
+      list-style: none;
+    }
+
+    .submenu li a {
+      color: white;
+      padding: 12px 20px;
+      display: block;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .submenu li a:hover {
+      background-color: #444;
+    }
+
+    /* mostrar submenu no hover */
+    .menu>li:hover .submenu {
+      display: block;
+    }
+
+    /* lado esquerdo com ícone e botão logoff */
+    .user-panel {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      font-size: 24px;
+      user-select: none;
+    }
+
+    .logoff-btn {
+      padding: 8px 16px;
+      background-color: #000000c7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .logoff-btn:hover {
+      background-color: #d62828;
+    }
+
+    /* lado da imagem com fundo */
+    .side-image {
+      flex: 1;
+      background: url('images/afrape fundo.png') no-repeat center center;
+      background-size: cover;
+    }
+
+    /* lado do conteúdo do formulário */
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      position: relative;
+      background-color: #f5f5f5;
+      min-height: calc(100vh - 70px);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button[type="submit"] {
+      grid-column: 2;
+      justify-self: end;
+      width: 100%;
+      max-width: 150px;
+      height: 45px;
+      padding: 10px;
+      background-color: #1c1c1c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #333;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #333;
+      text-align: center;
+    }
+
+    @media (max-width: 992px) {
+      body {
+        flex-direction: column;
+        margin-top: 0;
+      }
+
+      .navbar {
+        position: relative;
+        height: auto;
+        padding: 15px 20px;
+      }
+
+      .side-image {
+        width: 100%;
+        height: 200px;
+        flex: none;
+      }
+
+      .content {
+        padding: 20px;
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      button[type="submit"] {
+        grid-column: 1;
+        width: 100%;
+        justify-self: stretch;
+      }
+
+      .menu {
+        gap: 15px;
+      }
+
+      .menu>li>a {
+        padding: 10px 14px;
+        font-size: 1rem;
+      }
+
+      .submenu {
+        min-width: 140px;
+      }
+
+      .logoff-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="user-panel">
+      <span class="user-icon" title="Usuário">👤</span>
+      <button class="logoff-btn" onclick="logoff()">Logoff</button>
+    </div>
+
+    <ul class="menu">
+      <li>
+        <a href="#">Cadastros</a>
+        <ul class="submenu">
+          <li><a href="cadescola.html">Cadastro Escola</a></li>
+          <li><a href="usuarios.html">Cadastro Usuários</a></li>
+          <li><a href="cadalunos.html">Cadastro Alunos</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Frequências</a>
+        <ul class="submenu">
+          <li><a href="#">Alunos</a></li>
+          <li><a href="#">Funcionários</a></li>
+          <li><a href="#">Professores</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Relatórios</a>
+      </li>
+    </ul>
+
+    <div class="logo" title="Logo Escola">
+      <img src="images/logo.png" alt="Logo Escola" />
+    </div>
+  </nav>
+
+  <div class="side-image"></div>
+
+  <div class="content">
+    <div class="container">
+      <div class="welcome">Cadastro de Escola</div>
+      <form id="formEscola">
+        <div>
+          <label for="name">Nome da escola:</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div>
+          <label for="cnpj">CNPJ (somente números):</label>
+          <input type="text" id="cnpj" name="cnpj" pattern="\\d{14}" required />
+        </div>
+
+        <div>
+          <label for="street">Rua:</label>
+          <input type="text" id="street" name="street" required />
+        </div>
+        <div>
+          <label for="number">Número:</label>
+          <input type="text" id="number" name="number" required />
+        </div>
+
+        <div>
+          <label for="complement">Complemento:</label>
+          <input type="text" id="complement" name="complement" />
+        </div>
+        <div>
+          <label for="neighborhood">Bairro:</label>
+          <input type="text" id="neighborhood" name="neighborhood" required />
+        </div>
+
+        <div>
+          <label for="city">Cidade:</label>
+          <input type="text" id="city" name="city" required />
+        </div>
+        <div>
+          <label for="state">Estado:</label>
+          <input type="text" id="state" name="state" maxlength="2" required />
+        </div>
+
+        <div>
+          <label for="postal_code">CEP (somente números):</label>
+          <input type="text" id="postal_code" name="postal_code" pattern="\\d{8}" required />
+        </div>
+        <div></div>
+
+        <button type="submit">Cadastrar</button>
+      </form>
+      <div class="footer">Desenvolvido por PI UNIVESP</div>
+    </div>
+  </div>
+
+  <script>
+    function logoff() {
+      alert('Você saiu!');
+      window.location.href = 'login.html'; // Ajuste conforme sua rota
+    }
+
+    document.getElementById('formEscola').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const data = {
+        name: document.getElementById('name').value,
+        cnpj: document.getElementById('cnpj').value,
+        address: {
+          street: document.getElementById('street').value,
+          number: document.getElementById('number').value,
+          complement: document.getElementById('complement').value,
+          neighborhood: document.getElementById('neighborhood').value,
+          city: document.getElementById('city').value,
+          state: document.getElementById('state').value,
+          postal_code: document.getElementById('postal_code').value
+        }
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/escolas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          alert('Escola cadastrada com sucesso!');
+          this.reset();
+        } else {
+          const error = await response.json();
+          alert('Erro ao cadastrar: ' + (error.message || response.status));
+        }
+      } catch (err) {
+        alert('Erro ao conectar com o servidor.');
+      }
+    });
+  </script>
+</body>
+
+</html>
